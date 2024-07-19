@@ -1,0 +1,55 @@
+﻿@using System.Globalization 
+@model Identitymanager.Models.ApplicationUsers
+
+<div class="container mt-2">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card-header bg-dark text-light">
+                User Profile
+            </div>
+            <div class="card-body text-dark">
+                <div class="col d-flex justify-content-center">
+                    @if (string.IsNullOrEmpty(Model.ImgUrl))
+                    {
+                        <img class="img" src="@Url.Content("~/img/nopic.png")" width="140" height="180" />
+                    }
+                    else
+                    {
+                        <img class="img" src="@Url.Content("~/img/" + @Model.ImgUrl)" width="140" height="180" />
+                    }
+                </div><br />
+                <b>UserName :</b> @Model.UserName<br />
+                <b>Email :</b> @Model.Email<br />
+                <div class="col-md-6">
+                    <div class="card mt-1">
+                        <div class="card-header bg-dark text-light">
+                            Detail
+                        </div>
+                        <div class="card-body text-dark">
+                            <p class="card-text">
+                                <b>Name :</b>@Model.FullName<br />
+                                <b>Address :</b>@Model.Address<br />
+                                <b>Tel :</b>@Model.PhoneNumber<br />
+                                <b>Tel :</b>@Model.BirthDate?.ToString("D",CultureInfo.CreateSpecificCulture("th-TH"))<br />
+                            </p>
+                        </div>
+                        <div class="card-footer bg-dark text-light">
+                            <nav>
+                                <a asp-controller="Member" asp-action="Edit" asp-route-id="@Model.Id"
+                                   class="btn btn-outline-light">Edit</a>
+                                <div class="float-end">
+                                    <form asp-controller="Account" asp-action="Logout">
+                                        <input type="submit" value="Logout"
+                                               class="btn btn-outline-danger"/>
+                                    </form>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+

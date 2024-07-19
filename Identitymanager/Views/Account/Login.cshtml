@@ -1,0 +1,38 @@
+﻿@model Identitymanager.ViewModels.LoginViewModel
+@{
+
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col d-flex justify-content-center align-items-center" style="height: 80vh;">
+            <div style="width: 300px; height: auto;">
+                <div class="card-header bg-secondary text-light">Login</div>
+                <div class="card-body">
+                    <form asp-controller="Account" asp-action="Login">
+                        <div class="text-danger" asp-validation-summary="All"></div>
+                        <div class="form-group">
+                            <label asp-for="Email"></label>
+                            <input asp-for="Email" value="aaa2@aaa.aa" class="form-control" />
+                            <span class="text-danger" asp-validation-for="Email"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Password"></label>
+                            <input asp-for="Password" value="2222_AAaa" class="form-control" />
+                            <span class="text-danger" asp-validation-for="Password"></span>
+                        </div><br />
+
+                        <div class="float-end">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-outline-light">Login</button>
+                                <button type="button" class="btn btn-outline-danger" asp-controller="Account" asp-action="Index">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <a class="text-warning" asp-controller="Account" asp-action="ForgotPassword">Forgot Password</a>
+            </div>
+        </div>
+    </div>
+</div>
