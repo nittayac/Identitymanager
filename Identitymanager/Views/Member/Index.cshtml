@@ -1,14 +1,14 @@
 ﻿@using System.Globalization 
 @model Identitymanager.Models.ApplicationUsers
 
-<div class="container mt-2">
+<div class="container">
     <div class="row">
-        <div class="col-md-3">
+        <div class="col">
             <div class="card-header bg-dark text-light">
                 User Profile
             </div>
             <div class="card-body text-dark">
-                <div class="col d-flex justify-content-center">
+                <div class="col mt-2">
                     @if (string.IsNullOrEmpty(Model.ImgUrl))
                     {
                         <img class="img" src="@Url.Content("~/img/nopic.png")" width="140" height="180" />
@@ -18,15 +18,15 @@
                         <img class="img" src="@Url.Content("~/img/" + @Model.ImgUrl)" width="140" height="180" />
                     }
                 </div><br />
-                <b>UserName :</b> @Model.UserName<br />
-                <b>Email :</b> @Model.Email<br />
-                <div class="col-md-6">
+                <div class="col">
                     <div class="card mt-1">
                         <div class="card-header bg-dark text-light">
                             Detail
                         </div>
                         <div class="card-body text-dark">
                             <p class="card-text">
+                                <b>UserName :</b> @Model.UserName<br />
+                                <b>Email :</b> @Model.Email<br />
                                 <b>Name :</b>@Model.FullName<br />
                                 <b>Address :</b>@Model.Address<br />
                                 <b>Tel :</b>@Model.PhoneNumber<br />
