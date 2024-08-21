@@ -1,4 +1,5 @@
 ﻿using Identitymanager.Models;
+using Identitymanager.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
@@ -10,26 +11,15 @@ public class MemberController : Controller
 {
     private readonly UserManager<ApplicationUsers> _usermanager;
     private readonly ApplicationDbContext _db;
+    private readonly SignInManager<ApplicationUsers> _signInManager;
 
-    public MemberController(UserManager<ApplicationUsers> userManager,ApplicationDbContext db)
+    public MemberController(UserManager<ApplicationUsers> userManager,
+                                    ApplicationDbContext db,
+                                    SignInManager<ApplicationUsers> signInManager)
     {
         _usermanager = userManager;
         _db = db;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        _signInManager = signInManager;
     }
     public IActionResult Index()
     {
@@ -131,5 +121,42 @@ public class MemberController : Controller
 
         return View(data);
     
+    }
+
+    public IActionResult ChangePassword()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> ChangePassword(ChangePasswordViewModel data)
+    {
+        if (ModelState.IsValid)
+        { 
+            var user = await _usermanager.GetUserAsync(User);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var result = await _usermanager.ChangePasswordAsync(user,data.OldPassword,data.NewPassword);
+            if (result.Succeeded)
+            {
+                await _signInManager.RefreshSignInAsync(user);
+                return RedirectToAction("Index", "Member");
+            }
+            else {
+                foreach (var item in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, item.Description);
+                }
+            }
+
+
+        }
+
+        return View(data);
     }
 }

@@ -33,17 +33,17 @@
                 @if(User.Identity.IsAuthenticated)
                 { 
                     <div class="dropdown">
-                        <a class="btn btn-dark text-dark dropdown-toggle" role="button" id="ddmMember"
-                           asp-controller="Member" asp-action="Index">@User.Identity.Name</a>
-                        <ul class="dropdown" aria-labelledby="dropdownMenuLink">
-                            <li>
-                                <a class="dropdown-item" asp-controller="Member" asp-action="Index">Profile</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" asp-controller="Member" asp-action="ChangePassword">Change Password</a>
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
+                            @User.Identity.Name
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <li><a class="dropdown-item" asp-controller="Member" asp-action="Index">Profile</a></li>
+                            <li><a class="dropdown-item" asp-controller="Member" asp-action="ChangePassword">Change Password</a></li>
+                            <li><a class="dropdown-item" asp-controller="Account" asp-action="EnableAuthenucator">Open Two Factor</a>
                             </li>
                         </ul>
                     </div>
+                <a class="btn btn-primary" asp-controller="Account" asp-action="Logout">Logout</a>
                 }else
                 { 
                     <div class="collapse navbar-collapse" id="navMain">
@@ -72,6 +72,7 @@
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="~/js/qrcode.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
