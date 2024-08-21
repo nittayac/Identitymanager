@@ -12,9 +12,9 @@ public class EmailService
         var sender = new SmtpSender(() => new System.Net.Mail.SmtpClient("localhost")
         { 
             EnableSsl = false,
-            Port =25,
-            DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.SpecifiedPickupDirectory,
-            PickupDirectoryLocation =@"D:\Email"
+            Port =25
+            //DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.SpecifiedPickupDirectory,
+            //PickupDirectoryLocation =@"E:\Email"
         });
 
         StringBuilder sb = new StringBuilder();

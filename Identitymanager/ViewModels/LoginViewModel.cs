@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace Identitymanager.ViewModels;
 
@@ -11,5 +12,12 @@ public class LoginViewModel
     [Required(ErrorMessage = "Please enter a password.")]
     [Display(Name ="Password")]
     [DataType(DataType.Password)]
-    public string Password { get; set; } 
+    public string Password { get; set; }
+
+    [BindProperty]//[ViewData]
+    public string Message { get; set; }
+
+    [BindProperty]//[ViewData]
+    public string LoginError { get; set; }
+
 }
