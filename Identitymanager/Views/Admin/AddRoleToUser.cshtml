@@ -1,0 +1,31 @@
+﻿@using Identitymanager.ViewModels
+@model AddRoleToUserViewModel
+
+@{
+    ViewData["Title"] = "Add a role to user";
+}
+
+<h2 class="alert alert-success">Add a role to: @Model.Email</h2>
+<div class="container col-md-4">
+    <div class="card card-center bg-light text-light border-light">
+        <div class="card-header text-light">
+            Roles
+        </div>
+        <div class="card-body">
+            <form asp-controller="Admin" asp-action="AddRoleToUser">
+                <div class="text-danger" asp-validation-summary="All"></div>
+                <input asp-for="UserId" type="hidden" />
+                <input asp-for="Email" type="hidden" />
+                <div class="form-group m-1">
+                    @* <select asp-for="NewRole" asp-items="Model.Roles" class="form-select pointer"></select> *@
+                    <select asp-for="NewRole" class="form-select" asp-items="ViewBag.NewRole"></select>
+                </div>
+               <div class="form-group">
+                   <button type="submit" class="btn btn-success btn-outline-light float-end m-2">
+                       Save
+                   </button>
+               </div>
+            </form>
+        </div>
+    </div>
+</div>

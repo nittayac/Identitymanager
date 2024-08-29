@@ -1,9 +1,12 @@
-﻿using Identitymanager.Models;
+﻿using Identitymanager.Config;
+using Identitymanager.Models;
 using Identitymanager.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.FileProviders;
+using System.Reflection.Metadata.Ecma335;
 
 namespace Identitymanager.Controllers;
 
@@ -158,5 +161,30 @@ public class MemberController : Controller
         }
 
         return View(data);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    [Authorize(Roles = RoleName.Admin)]
+    public async Task<IActionResult> BanUnBan(string id)
+    {
+        ApplicationUsers user = await _usermanager.FindByIdAsync(id);
+        if (user == null)
+        {
+            return NotFound();
+        }
+
+        if (user.LockoutEnd != null  && user.LockoutEnd > DateTime.Now) //unban
+        {
+            user.LockoutEnd = DateTime.Now;
+        }
+        else //ban
+        { 
+            user.LockoutEnd = DateTime.Now.AddYears(200);
+        }
+
+        await _usermanager.UpdateAsync(user);
+
+        return RedirectToAction("Index", "Admin");
     }
 }

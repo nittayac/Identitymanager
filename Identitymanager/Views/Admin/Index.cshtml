@@ -1,0 +1,89 @@
+﻿@using System.Globalization
+@using Identitymanager.ViewModels
+@model List<UserRolesViewModel>
+
+@{
+    ViewData["Titile"] = "Admin Page";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="float-end mb-2">
+            <a class="btn btn-info btn-outline-light" asp-action="Dashboard" asp-controller="Admin">Dashboard</a>
+            <a class="btn btn-secondary btn-outline-light" asp-controller="Admin" asp-action="Create">Add user</a>
+            <a class="btn btn-success btn-outline-light" asp-controller="Role">Role</a>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <table class="table bg-dark text-light">
+            <tr>
+                <th></th>
+                <th>Email</th>
+                <th>Login 2FT ?</th>
+                <th>Role</th>
+                <th></th>
+            </tr>
+            @if (Model == null)
+            {
+                <tr>
+                    <td colspan="4"> User Not Found </td>
+                </tr>
+            } else
+            {
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <form asp-controller="Member" asp-action="BanUnBan" asp-route-id="@item.UserId">
+                                @if (item.LockoutEnd == null || item.LockoutEnd <DateTime.Now)
+                                {
+                                    <button type="submit" class="btn btn-danger btn-outline-light text-white">
+                                        <span>Ban</span>
+                                    </button>
+                                }else
+                                {
+                                    <button type="submit" class="btn btn-success btn-outline-light text-white">
+                                        <span>Unban</span>
+                                    </button>
+                                }
+                            </form>
+                        </td>
+                        <td class="text-warning">
+                            @item.Email
+                            @if (!(item.LockoutEnd == null || item.LockoutEnd < DateTime.Now))
+                            {
+                                <br />
+                                <span class="text-danger">
+                                    Ban Enddate : @item.LockoutEnd?.ToString("D", CultureInfo.GetCultureInfo("en-US"))
+                                </span>
+                            }
+                        </td>
+                        <td class="text-info">
+                            @string.Join(",",item.Roles.ToList())
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TwoFactorEnabled)
+                        </td>
+                       
+                        <td>
+                            <a class="btn btn-outline-secondary" 
+                                asp-controller="Admin" 
+                                asp-action="AddRoleToUser"
+                                asp-route-id="@item.UserId">Add Role</a>
+                            <a class="btn btn-outline-info" 
+                                asp-controller="Admin" 
+                                asp-action="RemoveRoleFromUser"
+                                asp-route-id="@item.UserId">
+                                Revoke role
+                            </a>
+
+                        </td>
+                    </tr>
+                }
+
+            }
+        </table>
+    </div>
+</div>

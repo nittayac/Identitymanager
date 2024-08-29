@@ -96,6 +96,14 @@ public class AccountController : Controller
                 return RedirectToAction(nameof(VerifyAuthenticatorCode));
             }
 
+            if (result.IsLockedOut)
+            {
+                return View("Lockout");
+            }
+            else 
+            {
+                ModelState.AddModelError("", "Login is not correct.");
+            }
         }
         return View(data);
 
@@ -281,6 +289,15 @@ public class AccountController : Controller
             if (result.Succeeded)
             {
                 return RedirectToAction("Index", "Member");
+            }
+
+            if (result.IsLockedOut)
+            {
+                return View("Lockout");
+            }
+            else
+            {
+                ModelState.AddModelError("", "Login is not correct.");
             }
         }
 

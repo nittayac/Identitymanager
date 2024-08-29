@@ -1,0 +1,29 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model IdentityRole
+@{
+    ViewData["Titile"] = "Add a new role";
+}
+
+<div class="container col-md-4">
+    <div class="card text-dark">
+        <div class="card-header bg-success text-light">
+            Add a new role
+        </div>
+        <div class="card-body">
+            <form asp-controller="Role" asp-action="Create">
+                <div class="text-danger" asp-validation-summary="All"></div>
+                <div class="form-group">
+                    <label asp-for="Name">Role Name</label>
+                    <input asp-for="Name" class="form-control" required/>
+                    <span class="text-danger" asp-validation-for="Name"></span>
+                </div><hr/>
+                <div class="form-group float-end m-1">
+                    <button type="submit" onclick="return confirm('Do you want to create a new role?')"
+                        class="btn btn-outline-success">
+                        Save
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
